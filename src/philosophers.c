@@ -26,6 +26,8 @@ int main(int argc, char *argv[])
 }
 
 //4 800 300 300
+//even nb of philos the sum of both cant exceed the 2nd arg
+//odd nb of philos it needs to b 3 times (ie 1210 400 400)
 
 int		check_params(int argc, char *argv[])
 {

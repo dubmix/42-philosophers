@@ -43,6 +43,7 @@ typedef struct s_env
     t_philosopher philosopher[250];
     unsigned long start_time;
     pthread_mutex_t meal;
+    //pthread_mutex_t lock_all_ate; //valgrind --tool=helgrind
     pthread_mutex_t printing;
     pthread_mutex_t forks[250];
 }   t_env;

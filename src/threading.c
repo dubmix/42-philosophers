@@ -42,7 +42,8 @@ void	*pthread(void *params)
 	while (philosopher->env->dead == 0)
 	{
 		philosopher_eats(philosopher);
-		if (philosopher->env->all_ate != 0)
+		//pthread_mutex_lock(&philosopher->env->all_ate)
+		if (philosopher->env->all_ate != 0) // protect with mutex?
 			break ;
 		print_status(philosopher, "is sleeping");
 		nap(philosopher->env->time_to_sleep, philosopher);
@@ -76,7 +77,7 @@ void death_checker(t_env *env)
 					&& env->philosopher[i].number_of_meals <= env->max_meals)
 			i++;
 		if (i == env->number_of_philosophers)
-			env->all_ate = 1;
+			env->all_ate = 1; //protect with mutex 
 	}
 }
 
