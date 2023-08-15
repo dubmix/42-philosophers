@@ -6,13 +6,13 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:30:18 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/07/22 17:30:32 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:20:24 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void init(t_env *env, int argc, char *argv[])
+void	init(t_env *env, int argc, char *argv[])
 {
 	convert_args(env, argc, argv);
 	env->all_ate = 0;
@@ -33,10 +33,10 @@ void	convert_args(t_env *env, int argc, char *argv[])
 		env->max_meals = -1;
 }
 
-void init_mutex(t_env *env)
+void	init_mutex(t_env *env)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	i = env->number_of_philosophers - 1;
 	while (i >= 0)
@@ -54,19 +54,20 @@ void init_mutex(t_env *env)
 		err_msg("mutex initialization failed");
 }
 
-int init_philos(t_env *env)
+int	init_philos(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = env->number_of_philosophers - 1;
-	if (env->number_of_philosophers == INT_MAX)
+	if (env->number_of_philosophers >= 200)
 		err_msg("too many philosophers");
 	while (i >= 0)
 	{
 		env->philosopher[i].id = i + 1;
 		env->philosopher[i].number_of_meals = 0;
 		env->philosopher[i].left_fork_id = i;
-		env->philosopher[i].right_fork_id = (i + 1) % env->number_of_philosophers;
+		env->philosopher[i].right_fork_id = (i + 1)
+			% env->number_of_philosophers;
 		env->philosopher[i].last_meal = 0;
 		env->philosopher[i].env = env;
 		i--;

@@ -6,13 +6,17 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:56:00 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/07/21 23:26:56 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:12:43 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-int main(int argc, char *argv[])
+//4 800 300 300
+//even nb of philos the sum of both cant exceed the 2nd arg
+//odd nb of philos it needs to b 3 times (ie 1210 400 400)
+
+int	main(int argc, char *argv[])
 {
 	t_env	env;
 
@@ -25,13 +29,9 @@ int main(int argc, char *argv[])
 	return (0);
 }
 
-//4 800 300 300
-//even nb of philos the sum of both cant exceed the 2nd arg
-//odd nb of philos it needs to b 3 times (ie 1210 400 400)
-
-int		check_params(int argc, char *argv[])
+int	check_params(int argc, char *argv[])
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < argc)
@@ -49,6 +49,6 @@ int		check_params(int argc, char *argv[])
 	else if (ft_atoi(argv[4]) < 0)
 		return (0);
 	if (argc == 6 && ft_atoi(argv[5]) <= 0)
-			return (0);
+		return (0);
 	return (1); 
 }

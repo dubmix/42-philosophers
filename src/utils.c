@@ -6,13 +6,13 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:39:14 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/07/22 16:39:36 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:10:12 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-unsigned long get_time(void)
+unsigned long	get_time(void)
 {
 	struct timeval	time;
 	unsigned long	t;

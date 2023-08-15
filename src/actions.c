@@ -6,7 +6,7 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:40:43 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/07/22 16:41:08 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:09:39 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	nap(unsigned long time, t_philosopher *philosopher)
 {
-	unsigned long start;
+	unsigned long	start;
 
 	start = get_time();
 	while (philosopher->env->dead == 0)
 	{
 		if (get_time() - start >= time)
-			break;
+			break ;
 		usleep(50);
 	}
 }
@@ -52,4 +52,3 @@ void	philosopher_eats(t_philosopher *philosopher)
 	pthread_mutex_unlock(&philosopher->env->forks[philosopher->right_fork_id]);
 	pthread_mutex_unlock(&philosopher->env->forks[philosopher->left_fork_id]);
 }
-

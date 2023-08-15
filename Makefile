@@ -27,7 +27,7 @@ all:			${NAME}
 
 $(NAME):		${OBJS}
 						@cc ${OBJS} $(CFLAGS) -o $(NAME)
-						@echo "Program is ready!"
+						@echo "\033[1;5mProgram is ready!\033[0m"
 
 clean:
 				@rm -f ${OBJS}
@@ -35,7 +35,7 @@ clean:
 fclean:			clean
 						@cd src && rm -f ${NAME}
 						@rm -f ${NAME}
-						@echo "All clean!"
+						@echo "\033[1mAll clean!\033[0m"
 
 re: fclean all
 

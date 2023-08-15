@@ -6,7 +6,7 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:40:00 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/07/22 16:40:23 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:20:52 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	launch_threads(t_env *env)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	i = 0;
 	env->start_time = get_time();
@@ -34,16 +34,17 @@ void	launch_threads(t_env *env)
 
 void	*pthread(void *params)
 {
-	t_philosopher *philosopher;
+	t_philosopher	*philosopher;
 
 	philosopher = (t_philosopher *)params;
-	if (philosopher->id % 2 != 0 && philosopher->env->number_of_philosophers > 1)
+	if (philosopher->id % 2 != 0
+		&& philosopher->env->number_of_philosophers > 1)
 		nap(philosopher->env->time_to_eat, philosopher);
 	while (philosopher->env->dead == 0)
 	{
 		philosopher_eats(philosopher);
-		//pthread_mutex_lock(&philosopher->env->all_ate)
-		if (philosopher->env->all_ate != 0) // protect with mutex?
+		if (philosopher->env->all_ate != 0
+			|| philosopher->number_of_meals == philosopher->env->max_meals)
 			break ;
 		print_status(philosopher, "is sleeping");
 		nap(philosopher->env->time_to_sleep, philosopher);
@@ -52,19 +53,21 @@ void	*pthread(void *params)
 	return (NULL);
 }
 
-void death_checker(t_env *env)
+void	death_checker(t_env *env)
 {
-    int i;
-    
+	int	i;
+
 	while (env->all_ate == 0)
 	{
 		i = 0;
 		while (i < env->number_of_philosophers && env->dead == 0)
 		{
 			pthread_mutex_lock(&env->meal);
-			if ((get_time() - env->philosopher[i].last_meal) >= (unsigned long)env->time_to_die)
+			if ((get_time() - env->philosopher[i].last_meal)
+				>= (unsigned long)env->time_to_die)
 			{
-				print_status(env->philosopher, "died");
+				if (env->philosopher[i].number_of_meals != env->max_meals)
+					print_status(env->philosopher, "died");
 				env->dead = 1;
 			}
 			pthread_mutex_unlock(&env->meal);
@@ -72,21 +75,28 @@ void death_checker(t_env *env)
 		}
 		if (env->dead != 0)
 			break ;
-		i = 0;
-		while (env->max_meals != -1 && i < env->number_of_philosophers
-					&& env->philosopher[i].number_of_meals <= env->max_meals)
-			i++;
-		if (i == env->number_of_philosophers)
-			env->all_ate = 1; //protect with mutex 
+		death_checker_sub(env);
 	}
 }
 
-void exit_threads(t_env *env)
+void	death_checker_sub(t_env *env)
 {
-	int  i;
+	int	i;
 
 	i = 0;
-	while (i < env->number_of_philosophers)
+	while (env->max_meals <= -1 && i < env->number_of_philosophers
+		&& env->philosopher[i].number_of_meals <= env->max_meals)
+		i++;
+	if (i == env->number_of_philosophers)
+		env->all_ate = 1;
+}
+
+void	exit_threads(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->number_of_philosophers && env->number_of_philosophers != 1)
 	{
 		pthread_join(env->philosopher[i].thread_id, NULL);
 		i++;
@@ -99,5 +109,4 @@ void exit_threads(t_env *env)
 	}
 	pthread_mutex_destroy(&env->printing);
 	pthread_mutex_destroy(&env->meal);
-	//free(malloc)
 }
