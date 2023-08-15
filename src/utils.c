@@ -38,7 +38,7 @@ int	ft_atoi(const char *str)
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
-			err_msg("parameter not int");
+			err_msg("Parameter not unsigned int");
 		i++;
 	}
 	i = 0;
@@ -48,6 +48,6 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if ((unsigned long)nb >= INT_MAX)
-		err_msg("int max");
+		err_msg("Int max");
 	return (nb);
 }
