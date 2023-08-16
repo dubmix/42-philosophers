@@ -24,8 +24,9 @@ int	main(int argc, char *argv[])
 		err_msg("Wrong number of arguments");
 	if (check_params(argc, argv) == 0)
 		err_msg("Wrong parameters");
+	printf("time of start is: %lu\n", get_time());
 	init(&env, argc, argv);
-	launch_threads(&env);
+	launch_processes(&env);
 	return (0);
 }
 
@@ -42,6 +43,8 @@ int	check_params(int argc, char *argv[])
 	}
 	if (ft_atoi(argv[1]) < 1)
 		return (0);
+	else if (ft_atoi(argv[1]) >= 200)
+		err_msg("Too many philosophers");
 	else if (ft_atoi(argv[2]) < 0)
 		return (0);
 	else if (ft_atoi(argv[3]) < 0)

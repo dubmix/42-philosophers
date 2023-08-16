@@ -43,15 +43,15 @@ void	init_mutex(t_env *env)
 	{
 		ret = pthread_mutex_init(&env->forks[i], NULL);
 		if (ret != 0)
-			err_msg("mutex initialization failed");
+			err_msg("Mutex initialization failed");
 		i--;
 	}
 	ret = pthread_mutex_init(&env->printing, NULL);
 	if (ret != 0)
-		err_msg("mutex initialization failed");
+		err_msg("Mutex initialization failed");
 	ret = pthread_mutex_init(&env->meal, NULL);
 	if (ret != 0)
-		err_msg("mutex initialization failed");
+		err_msg("Mutex initialization failed");
 }
 
 int	init_philos(t_env *env)
@@ -59,8 +59,6 @@ int	init_philos(t_env *env)
 	int	i;
 
 	i = env->number_of_philosophers - 1;
-	if (env->number_of_philosophers >= 200)
-		err_msg("too many philosophers");
 	while (i >= 0)
 	{
 		env->philosopher[i].id = i + 1;
