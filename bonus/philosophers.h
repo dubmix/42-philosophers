@@ -27,7 +27,7 @@ typedef struct s_philosopher
 {
 	int				id;
 	int				number_of_meals;
-	unsigned long	last_meal;
+	unsigned long	next_meal;
 	struct s_env	*env;
 	pid_t			pid;
 }	t_philosopher;
@@ -43,7 +43,7 @@ typedef struct s_env
 	int				dead;
 	t_philosopher	philosopher[200];
 	unsigned long	start_time;
-	sem_t			*meal;
+	sem_t			*death;
 	sem_t			*printing;
 	sem_t			*forks;
 	sem_t			*stop;
@@ -53,7 +53,7 @@ void			err_msg(char *str);
 unsigned long	get_time(void);
 int				check_params(int argc, char *argv[]);
 
-void			nap(unsigned long time, t_philosopher *philosopher);
+void			nap(unsigned long time);
 void			print_status(t_philosopher *philosopher, char *str);
 void			philosopher_eats(t_philosopher *philosopher);
 

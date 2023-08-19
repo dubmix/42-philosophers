@@ -12,17 +12,9 @@
 
 #include "../philosophers.h"
 
-void	nap(unsigned long time, t_philosopher *philosopher)
+void	nap(unsigned long time)
 {
-	unsigned long	start;
-
-	start = get_time();
-	while (philosopher->env->dead == 0)
-	{
-		if (get_time() - start >= time)
-			break ;
-		usleep(50);
-	}
+	usleep(time * 1000);
 }
 
 void	print_status(t_philosopher *philosopher, char *str)
@@ -44,10 +36,11 @@ void	philosopher_eats(t_philosopher *philosopher)
 	sem_wait(philosopher->env->forks);
 	print_status(philosopher, "has taken a fork");
 	print_status(philosopher, "is eating");
-	philosopher->last_meal = get_time();
+	//usleep(philosopher->env->time_to_eat);
+	nap(philosopher->env->time_to_eat);
+	philosopher->next_meal = get_time() + (unsigned int)philosopher->env->time_to_die;
 	//printf("actual last meal of %d is: %lu\n", philosopher->id, philosopher->last_meal);
 	philosopher->number_of_meals += 1;
-	nap(philosopher->env->time_to_eat, philosopher);
 	sem_post(philosopher->env->forks);
 	sem_post(philosopher->env->forks);
 }
