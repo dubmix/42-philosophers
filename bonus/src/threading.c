@@ -24,6 +24,7 @@ void	launch_processes(t_env *env)
 
 	i = 0;
 	env->start_time = get_time();
+	sem_wait(env->stop);
 	while (i < env->number_of_philosophers)
 	{
 		env->philosopher[i].last_meal = get_time();
@@ -37,8 +38,8 @@ void	launch_processes(t_env *env)
 	}
 	// faire fonction qui update le last_meal dans le parent process
 	//usleep(1000000); // 1 sec for program to end
-	death_checker(env);
 	sem_wait(env->stop); //use sem_wait so the progam runs until semaphore released in death checker
+	//death_checker(env);
 	exit_threads(env);
 }
 
@@ -46,18 +47,22 @@ void *ft_death_checker(void *arg)
 {
 	t_philosopher *philosopher;
 
+	//write(1, "p", 1);
 	philosopher = (t_philosopher *)arg;
-	usleep(3000000);
-	sem_post(philosopher->env->stop); //should quit the thread??
+	while (1)
+	{
+		// if ((get_time() - (philosopher->last_meal))
+		// 			>= (unsigned long)philosopher->env->time_to_die)
+		// {
+		// 	if (philosopher->number_of_meals != philosopher->env->max_meals)
+		// 		print_status(philosopher, "died");
+		// 	philosopher->env->dead = 1;
+		// }
+		usleep(1000000);
+		sem_post(philosopher->env->stop); //should quit the thread??
+	}
 	return (NULL);
 	//usleep(1000000);
-	if ((get_time() - (philosopher->last_meal))
-				>= (unsigned long)philosopher->env->time_to_die)
-	{
-		if (philosopher->number_of_meals != philosopher->env->max_meals)
-			print_status(philosopher, "died");
-		philosopher->env->dead = 1;
-	}
 }
 
 void	processes(t_philosopher *philosopher)
