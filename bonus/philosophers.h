@@ -46,6 +46,7 @@ typedef struct s_env
 	sem_t			*meal;
 	sem_t			*printing;
 	sem_t			*forks;
+	sem_t			*stop;
 }	t_env;
 
 void			err_msg(char *str);

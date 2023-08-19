@@ -46,7 +46,7 @@ void	philosopher_eats(t_philosopher *philosopher)
 	//sem_wait(philosopher->env->meal);
 	print_status(philosopher, "is eating");
 	philosopher->last_meal = get_time();
-printf("actual last meal of %d is: %lu\n", philosopher->id, philosopher->last_meal);
+	//printf("actual last meal of %d is: %lu\n", philosopher->id, philosopher->last_meal);
 	//sem_post(philosopher->env->meal);
 	philosopher->number_of_meals += 1;
 	nap(philosopher->env->time_to_eat, philosopher);

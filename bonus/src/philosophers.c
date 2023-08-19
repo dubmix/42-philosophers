@@ -24,7 +24,7 @@ int	main(int argc, char *argv[])
 		err_msg("Wrong number of arguments");
 	if (check_params(argc, argv) == 0)
 		err_msg("Wrong parameters");
-	printf("time of start is: %lu\n", get_time());
+	//printf("time of start is: %lu\n", get_time());
 	init(&env, argc, argv);
 	launch_processes(&env);
 	return (0);

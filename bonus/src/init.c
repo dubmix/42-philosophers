@@ -38,9 +38,11 @@ void	init_semaphores(t_env *env)
 	sem_unlink("forks");
 	sem_unlink("printing");
 	sem_unlink("meal");
+	sem_unlink("stop");
 	env->forks = sem_open("forks", O_CREAT, 0644, env->number_of_philosophers);
 	env->printing = sem_open("printing", O_CREAT, 0644, 1);
 	env->meal = sem_open("meal", O_CREAT, 0644, 1);
+	env->stop = sem_open("stop", O_CREAT, 0644, 1);
 }
 
 int	init_philos(t_env *env)
