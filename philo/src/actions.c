@@ -37,10 +37,16 @@ void	print_status(t_philosopher *philosopher, char *str)
 	pthread_mutex_unlock(&philosopher->env->printing);
 }
 
-void	philosopher_eats(t_philosopher *philosopher)
+int	philosopher_eats(t_philosopher *philosopher)
 {
+	if (philosopher->env->number_of_philosophers == 1)
+	{
+		print_status(philosopher, "has taken a fork");
+		return (1);
+	}
 	pthread_mutex_lock(&philosopher->env->forks[philosopher->left_fork_id]);
 	print_status(philosopher, "has taken a fork");
+	//if (philosopher->env->number_of_philosophers > 1)
 	pthread_mutex_lock(&philosopher->env->forks[philosopher->right_fork_id]);
 	print_status(philosopher, "has taken a fork");
 	pthread_mutex_lock(&philosopher->env->meal);
@@ -49,6 +55,8 @@ void	philosopher_eats(t_philosopher *philosopher)
 	pthread_mutex_unlock(&philosopher->env->meal);
 	philosopher->number_of_meals += 1;
 	nap(philosopher->env->time_to_eat, philosopher);
+	//if (philosopher->env->number_of_philosophers > 1)
 	pthread_mutex_unlock(&philosopher->env->forks[philosopher->right_fork_id]);
 	pthread_mutex_unlock(&philosopher->env->forks[philosopher->left_fork_id]);
+	return (0);
 }

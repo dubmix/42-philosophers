@@ -42,7 +42,8 @@ void	*pthread(void *params)
 		nap(philosopher->env->time_to_eat, philosopher);
 	while (read_death(philosopher->env) == 0)
 	{
-		philosopher_eats(philosopher);
+		if (philosopher_eats(philosopher) == 1)
+			break ;
 		if (philosopher->env->all_ate != 0
 			|| philosopher->number_of_meals == philosopher->env->max_meals)
 			break ;
@@ -93,7 +94,7 @@ void	exit_threads(t_env *env)
 	int	i;
 
 	i = 0;
-	while (i < env->number_of_philosophers && env->number_of_philosophers != 1)
+	while (i < env->number_of_philosophers)
 	{
 		pthread_join(env->philosopher[i].thread_id, NULL);
 		i++;

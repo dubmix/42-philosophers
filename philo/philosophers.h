@@ -54,7 +54,7 @@ int				check_params(int argc, char *argv[]);
 
 void			nap(unsigned long time, t_philosopher *philosopher);
 void			print_status(t_philosopher *philosopher, char *str);
-void			philosopher_eats(t_philosopher *philosopher);
+int				philosopher_eats(t_philosopher *philosopher);
 
 void			init(t_env *env, int argc, char *argv[]);
 void			launch_threads(t_env *env);

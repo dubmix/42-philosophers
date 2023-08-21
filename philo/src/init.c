@@ -68,7 +68,7 @@ int	init_philos(t_env *env)
 		env->philosopher[i].number_of_meals = 0;
 		env->philosopher[i].left_fork_id = i;
 		env->philosopher[i].right_fork_id = (i + 1)
-			% env->number_of_philosophers;
+				% env->number_of_philosophers;
 		env->philosopher[i].last_meal = 0;
 		env->philosopher[i].env = env;
 		i--;
