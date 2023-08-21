@@ -24,9 +24,8 @@ int	main(int argc, char *argv[])
 		err_msg("Wrong number of arguments");
 	if (check_params(argc, argv) == 0)
 		err_msg("Wrong parameters");
-	//printf("time of start is: %lu\n", get_time());
 	init(&env, argc, argv);
-	launch_processes(&env);
+	launch_threads(&env);
 	return (0);
 }
 
@@ -54,4 +53,10 @@ int	check_params(int argc, char *argv[])
 	if (argc == 6 && ft_atoi(argv[5]) <= 0)
 		return (0);
 	return (1); 
+}
+
+void	err_msg(char *str)
+{
+	printf("%s\n", str);
+	exit(EXIT_FAILURE);
 }

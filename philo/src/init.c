@@ -17,7 +17,7 @@ void	init(t_env *env, int argc, char *argv[])
 	convert_args(env, argc, argv);
 	env->all_ate = 0;
 	env->dead = 0;
-	init_semaphores(env);
+	init_mutex(env);
 	init_philos(env);
 }
 
@@ -33,31 +33,43 @@ void	convert_args(t_env *env, int argc, char *argv[])
 		env->max_meals = -1;
 }
 
-void	init_semaphores(t_env *env)
+void	init_mutex(t_env *env)
 {
-	sem_unlink("forks");
-	sem_unlink("printing");
-	sem_unlink("death");
-	sem_unlink("stop");
-	env->forks = sem_open("forks", O_CREAT, 0644, env->number_of_philosophers);
-	env->printing = sem_open("printing", O_CREAT, 0644, 1);
-	env->death = sem_open("death", O_CREAT, 0644, 1);
-	env->stop = sem_open("stop", O_CREAT, 0644, 1);
+	int	i;
+	int	ret;
+
+	i = env->number_of_philosophers - 1;
+	while (i >= 0)
+	{
+		ret = pthread_mutex_init(&env->forks[i], NULL);
+		if (ret != 0)
+			err_msg("Mutex initialization failed");
+		i--;
+	}
+	ret = pthread_mutex_init(&env->printing, NULL);
+	if (ret != 0)
+		err_msg("Mutex initialization failed");
+	ret = pthread_mutex_init(&env->meal, NULL);
+	if (ret != 0)
+		err_msg("Mutex initialization failed");
+	ret = pthread_mutex_init(&env->death, NULL);
+	if (ret != 0)
+		err_msg("Mutex initialization failed");
 }
 
 int	init_philos(t_env *env)
 {
 	int	i;
 
-	//env->forks = NULL;
-	//env->printing = NULL;
 	i = env->number_of_philosophers - 1;
 	while (i >= 0)
 	{
 		env->philosopher[i].id = i + 1;
-		env->philosopher[i].pid = -1;
 		env->philosopher[i].number_of_meals = 0;
-		env->philosopher[i].next_meal = 0;
+		env->philosopher[i].left_fork_id = i;
+		env->philosopher[i].right_fork_id = (i + 1)
+			% env->number_of_philosophers;
+		env->philosopher[i].last_meal = 0;
 		env->philosopher[i].env = env;
 		i--;
 	}

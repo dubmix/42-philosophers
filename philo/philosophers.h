@@ -44,6 +44,7 @@ typedef struct s_env
 	unsigned long	start_time;
 	pthread_mutex_t	meal;
 	pthread_mutex_t	printing;
+	pthread_mutex_t	death;
 	pthread_mutex_t	forks[200];
 }	t_env;
 
@@ -67,5 +68,9 @@ int				ft_atoi(const char *str);
 void			convert_args(t_env *env, int argc, char *argv[]);
 void			init_mutex(t_env *env);
 int				init_philos(t_env *env);
+
+int				read_death(t_env *env);
+void			write_death(t_env *env);
+unsigned long	pulse_check(t_env *env, int i);
 
 #endif

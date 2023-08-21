@@ -6,7 +6,7 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:39:14 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/08/15 11:10:12 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:40:22 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ unsigned long	get_time(void)
 	gettimeofday(&time, NULL);
 	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (t);
-}
-
-void	err_msg(char *str)
-{
-	printf("%s\n", str);
-	exit(EXIT_FAILURE);
 }
 
 int	ft_atoi(const char *str)
@@ -48,4 +42,31 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (nb);
+}
+
+void	write_death(t_env *env)
+{
+	pthread_mutex_lock(&env->death);
+	env->dead = 1;
+	pthread_mutex_unlock(&env->death);
+}
+
+int	read_death(t_env *env)
+{
+	int	result;
+
+	pthread_mutex_lock(&env->death);
+	result = env->dead;
+	pthread_mutex_unlock(&env->death);
+	return (result);
+}
+
+unsigned long	pulse_check(t_env *env, int i)
+{
+	unsigned long	result;
+
+	pthread_mutex_lock(&env->meal);
+	result = get_time() - env->philosopher[i].last_meal;
+	pthread_mutex_unlock(&env->meal);
+	return (result);
 }

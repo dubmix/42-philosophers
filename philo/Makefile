@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philosophers
+NAME = philo
 
 SRCS = src/actions.c src/init.c src/philosophers.c src/threading.c src/utils.c
 

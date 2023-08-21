@@ -40,7 +40,7 @@ void	*pthread(void *params)
 	if (philosopher->id % 2 != 0
 		&& philosopher->env->number_of_philosophers > 1)
 		nap(philosopher->env->time_to_eat, philosopher);
-	while (philosopher->env->dead == 0)
+	while (read_death(philosopher->env) == 0)
 	{
 		philosopher_eats(philosopher);
 		if (philosopher->env->all_ate != 0
@@ -60,20 +60,17 @@ void	death_checker(t_env *env)
 	while (env->all_ate == 0)
 	{
 		i = 0;
-		while (i < env->number_of_philosophers && env->dead == 0)
+		while (i < env->number_of_philosophers && read_death(env) == 0)
 		{
-			pthread_mutex_lock(&env->meal);
-			if ((get_time() - env->philosopher[i].last_meal)
-				>= (unsigned long)env->time_to_die)
+			if (pulse_check(env, i) >= (unsigned long)env->time_to_die)
 			{
 				if (env->philosopher[i].number_of_meals != env->max_meals)
 					print_status(env->philosopher, "died");
-				env->dead = 1;
+				write_death(env);
 			}
-			pthread_mutex_unlock(&env->meal);
 			i++;
 		}
-		if (env->dead != 0)
+		if (read_death(env) != 0)
 			break ;
 		death_checker_sub(env);
 	}
@@ -109,4 +106,5 @@ void	exit_threads(t_env *env)
 	}
 	pthread_mutex_destroy(&env->printing);
 	pthread_mutex_destroy(&env->meal);
+	pthread_mutex_destroy(&env->death);
 }

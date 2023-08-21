@@ -6,7 +6,7 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:56:00 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/08/15 11:12:43 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:42:40 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char *argv[])
 	if (check_params(argc, argv) == 0)
 		err_msg("Wrong parameters");
 	init(&env, argc, argv);
-	launch_threads(&env);
+	launch_processes(&env);
 	return (0);
 }
 

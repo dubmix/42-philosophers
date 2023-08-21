@@ -17,7 +17,7 @@ void	nap(unsigned long time, t_philosopher *philosopher)
 	unsigned long	start;
 
 	start = get_time();
-	while (philosopher->env->dead == 0)
+	while (read_death(philosopher->env) == 0)
 	{
 		if (get_time() - start >= time)
 			break ;
@@ -28,7 +28,7 @@ void	nap(unsigned long time, t_philosopher *philosopher)
 void	print_status(t_philosopher *philosopher, char *str)
 {
 	pthread_mutex_lock(&philosopher->env->printing);
-	if (philosopher->env->dead == 0)
+	if (read_death(philosopher->env) == 0)
 	{
 		printf("%lu ", get_time() - philosopher->env->start_time);
 		printf("%i ", philosopher->id);
@@ -46,7 +46,6 @@ void	philosopher_eats(t_philosopher *philosopher)
 	pthread_mutex_lock(&philosopher->env->meal);
 	print_status(philosopher, "is eating");
 	philosopher->last_meal = get_time();
-	//printf("last meal is: %lu\n", philosopher->last_meal);
 	pthread_mutex_unlock(&philosopher->env->meal);
 	philosopher->number_of_meals += 1;
 	nap(philosopher->env->time_to_eat, philosopher);

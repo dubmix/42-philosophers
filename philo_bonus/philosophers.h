@@ -6,7 +6,7 @@
 /*   By: pdelanno <pdelanno@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:00 by pdelanno          #+#    #+#             */
-/*   Updated: 2023/08/15 11:07:31 by pdelanno         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:46:20 by pdelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void			init(t_env *env, int argc, char *argv[]);
 void			launch_processes(t_env *env);
 void			processes(t_philosopher *philosopher);
 void			death_checker(t_env *env);
-void			death_checker_sub(t_env *env);
 void			exit_threads(t_env *env);
 
 int				ft_atoi(const char *str);
