@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = philo_bonus
 
 SRCS = src/actions.c src/init.c src/philosophers.c src/threading.c src/utils.c
 
